@@ -116,3 +116,5 @@ const machine2 =
     },
     id: "Call machine",
   });
+
+export default { promiseMachine, machine, machine2 };
