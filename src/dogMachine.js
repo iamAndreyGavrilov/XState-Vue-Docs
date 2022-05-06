@@ -1,48 +1,49 @@
 import { createMachine } from "xstate";
 
 const promiseMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QBED2UB0BBA7gQwGswMBlAGzDAAcBPAYgBlUBXCAAgDtUBLAYzESgqqWNwAu3VB0EgAHogBMANgAMGACwBGAKwKAHAE4l6gOyaVCleoA0IGogMGMBhQs16F2pdoDM6-ZoAvoG2aJi4hMQAQmBQUNwcUHQA4twAbmBsACoATmB4YjLCohJSMvII5k4+2uZa+iYKPiYGerb2CAC06uoYLSZ6FiqDFgY+waHo2PhEdABieGRksGx4sBTURSLiktJIcojdvhhKRn4qF2ZNxu2H+goYHgZWYwomKtrqSuMhIGHY60oVEYLHYADkePwtiVduVDv4MD5NOoDJpUSp3p8DNpbl1tMNnJZVO8dO4fEoJn8plhAdQ6CQALZgJYrABmqFQEGhOzK+wqnU0lgwGP02PcH18Rlx3SUmg0XyUlmxSlOH3UwV+XAgcBk-wiRFIG1o3NKe1AFT8cuRVlMn38zRsdkOaMRA1OrVcstMBkpepmxBIvDweS5+2KPLNBy6pgwaNOZhUgoGei8SlxbgeXj0ShJ7iaHh+k3C-owMTiCSgJthfIcPkeBlMHj0mk0JmabfTJg0NR8wx0pz0HgUvup-qrvPNhzMsaMBgTScH2hM0pbXf6gxzvgUpisI-CtKo48j-NMct0Jm0KZaenUKlUOKdeJ0GiJLbf+NMe6PcOj2Iw58vJdWlve9pUvPQXzvFtezRZ51Q1IA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QBED2UB0BBA7gQwGswMBlAGzDAAcBPAYgBlUBXCAAgDtUBLAYzESgqqWNwAu3VB0EgAHogBMAFgCcGAOwAOBZoAMmgGwBWFUoDM6swYA0IGogC0Cs0owmFRgwpUGDSgyoK6gC+wbZomLiExABCYFBQ3BxQdADi3ABuYGwAKgBOYHhiMsKiElIy8ggqmhoAjJqeut4qRpZmtvYIDhZqZnUeSuoGdQ1KdUqh4ejY+ER0AGJ4ZGSwbHiwFNQlIuKS0khyjv6uZjrauiqmWpoddo4j6hguvUqNmoYGIWEgEdiblCojBY7AAcjx+DsyvtKo4jAoMNclLoUdc6j4FDZ7t1NOYMOYjGZ4UZ-Fc2lNfjMsADqHQSABbMArNYAM1QqAgUL2FUOVQcdTMug0ukJwzqBm0DQMdy6DnUrURIysfg+RmaBlCPy4EDgMj+USIpC2tC55QOoCqZkFbl08t8Rk8bSCSk6jiJZgwmhULiUhJJSkxKgp+rmxBIvDwBU5h1K3PNR26bU93l9ChRul9ZyULux-IUdUR-ltJIFbTMjWDVNDGDiCSSUFNMN5iFuGExzl0DWUtsFRld3UFT1tpgsFjezlxlciocbPItjk0Be0pnh6czyn7DlTzwG0pUl29w8mP31NKos-jfPHGHFKN8WgMtp7m9xam9ft85n6EqnF9hid0Awb0fQCvkMJ9LE3QIEXfK03gFHxVE1YIgA */
   createMachine({
-    id: "Dog",
-    initial: "Awake",
-    states: {
-      Awake: {
-        initial: "Begging",
-        states: {
-          Sleepy: {
-            on: {
-              "Loud noice": {
-                target: "Scared",
-              },
-            },
-          },
-          Scared: {},
-          Begging: {
-            on: {
-              "Give Treat": {
-                target: "Begging",
-              },
+  id: "Dog",
+  initial: "Awake",
+  states: {
+    Awake: {
+      initial: "Begging",
+      states: {
+        Sleepy: {
+          on: {
+            "Loud noice": {
+              target: "Scared",
             },
           },
         },
-        on: {
-          "Falls asleep": {
-            target: "Asleep",
+        Scared: {},
+        Begging: {
+          on: {
+            "Give Treat": {
+              target: "Begging",
+              internal: false,
+            },
           },
         },
       },
-      Asleep: {
-        on: {
-          "Loud Noice": {
-            target: "#Dog.Awake.Scared",
-          },
-          "Smells food": {
-            target: "#Dog.Awake.Sleepy",
-          },
+      on: {
+        "Falls asleep": {
+          target: "Asleep",
         },
       },
     },
-  });
+    Asleep: {
+      on: {
+        "Loud Noice": {
+          target: "#Dog.Awake.Scared",
+        },
+        "Smells food": {
+          target: "#Dog.Awake.Sleepy",
+        },
+      },
+    },
+  },
+});
 
 const machine =
   /** @xstate-layout N4IgpgJg5mDOIC5QHcCGAbA1gOjQSwBc8A7KAYnTFQDcwACACwHsBbMRUABydkLyeIcQAD0QBaAIwAWAKzYADAHYAHBImKATBPkA2RTICcUgDQgAnog0bsOgMwqDuqfPkGDGzQF9PptFmwCdKh0fphkMAR0AEaoAMaYjKzsSCDcvEQCQqIIkjI62BIGOsoymrYaBrYyEqYWCBryEtgGMkpt6lYGEsrePiDETBBwQqG4qHykQml8mSnZYra28gV6yq46Og0bOrWIEvkS9srHS7ZSjrbu3r4YOIHBoVM8M4JziLbYyiqyis6KZR4pIpdggJBoPjIpM55DJLgZ-osJNcQKNQnQwMQhhAnul+K9QPMzlJsJCNMoNFJCrCpLZlCClstzoZYYodJCZF9kY8UtMMviROJbMUSVIyRSqWdaSCxHlPpttBUtLC1LZep4gA */

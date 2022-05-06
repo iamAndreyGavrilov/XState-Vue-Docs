@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { useMachine } from "@xstate/vue";
 export default {
   name: "App",
   components: {},
