@@ -117,5 +117,5 @@ const machine2 =
     },
     id: "Call machine",
   });
-
+//Uncaught TypeError: machine.withConfig is not a function
 export default { promiseMachine, machine, machine2 };
